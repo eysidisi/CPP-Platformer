@@ -57,6 +57,9 @@ void Game::UpdateModel()
 
 	player.setBaseY(ground);
 	player.updateLoc(wnd.kbd);
+
+	if (isPlayerFired)
+		(*playerMissile).UpdateMissile();
 	
 		
 }
@@ -66,8 +69,12 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	player.drawPlayer(gfx);
+
 	for (int n = 0; n < numberOfPlatforms; n++)
 		platform[n].drawPlatform(gfx);
+
+	if (isPlayerFired)
+		(*playerMissile).DrawMissile(gfx);
 	
 }
 

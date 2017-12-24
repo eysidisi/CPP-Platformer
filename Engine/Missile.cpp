@@ -2,9 +2,6 @@
 
 
 
-Missile::Missile()
-{
-}
 
 
 Missile::~Missile()
@@ -17,10 +14,9 @@ void Missile::DrawMissile(Graphics &gfx)
 		gfx.PutPixel(i, yLoc, Colors::Green);
 }
 
-void Missile::UpdateMissile(const Keyboard & kbd)
+void Missile::UpdateMissile()
 {
-	if (kbd.KeyIsPressed(VK_RIGHT))
-	{
-		x += speed;
-	}
+	
+		xLoc += speed;
+	
 }

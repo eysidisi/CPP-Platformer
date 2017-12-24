@@ -24,6 +24,9 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Platform.h"
+#include "Missile.h"
+extern Missile *playerMissile;
+extern bool isPlayerFired = false;
 class Game
 {
 public:
@@ -50,4 +53,5 @@ private:
 	int ground = Graphics::ScreenHeight - 23;
 	bool playerIsCollading = false;
 	/********************************/
+public:
 };

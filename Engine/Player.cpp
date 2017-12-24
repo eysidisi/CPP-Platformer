@@ -326,6 +326,12 @@ void Player::drawPlayer( Graphics &gfx) const
 
 void Player::updateLoc(const Keyboard &kbd)
 {
+	if (kbd.KeyIsPressed(VK_CONTROL))
+	{
+		playerMissile = new Missile(x, y);
+		isPlayerFired = true;
+	}
+
 	// JUMPING CODE--------------------------------
 	if (kbd.KeyIsPressed(VK_SPACE)&&jumpFlag==0)//---------
 	{											//---------

@@ -4,7 +4,7 @@
 class Missile
 {
 public:
-	Missile();
+	Missile(int xLoc=0, int yLoc=0) :xLoc(xLoc), yLoc(yLoc) {};
 	~Missile();
 
 
@@ -14,6 +14,6 @@ private:
 
 public:
 	void DrawMissile(Graphics &gfx);
-	void UpdateMissile(const Keyboard &kbd);
+	void UpdateMissile();
 };
 
