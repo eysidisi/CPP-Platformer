@@ -369,10 +369,12 @@ void Player::updateLoc(const Keyboard &kbd)
 	if (kbd.KeyIsPressed(VK_RIGHT))
 	{
 		x += speed;
+		isLookingRight = true;
 	}
 	if (kbd.KeyIsPressed(VK_LEFT))
 	{
 		x -= speed;
+		isLookingRight = false;
 	}
 	
 	if (x >= Graphics::ScreenWidth-19)
@@ -383,20 +385,20 @@ void Player::updateLoc(const Keyboard &kbd)
 	{
 		x = 0;
 	}
-	// ----------------------------Ates etme------------------------------------
+	// ----------------------------Firing Missile------------------------------------
 	if (kbd.KeyIsPressed(VK_CONTROL) && missileCounter<2)
 	{
 
 		if (isMissile1Fired==false)
 		{
-			mis1 = new Missile(x + Player::xDimension, y + Player::yDimension / 2);
+			mis1 = new Missile(x + Player::xDimension, y + Player::yDimension / 2,isLookingRight);
 			isMissile1Fired = true; 
 			missileCounter += 1;
 		}
 
 		else if (isMissile2Fired == false)
 		{
-			mis2 = new Missile(x + Player::xDimension, y + Player::yDimension / 2);
+			mis2 = new Missile(x + Player::xDimension, y + Player::yDimension / 2,isLookingRight);
 			isMissile2Fired = true;
 			missileCounter += 1;
 
@@ -406,7 +408,7 @@ void Player::updateLoc(const Keyboard &kbd)
 	if (isMissile1Fired)
 	{
 		(*mis1).UpdateMissile();
-		if ((*mis1).xLoc >= Graphics::ScreenWidth - 5)
+		if ((*mis1).xLoc >= Graphics::ScreenWidth - 5 || (*mis1).xLoc <= 2)
 		{
 			delete(mis1);
 			isMissile1Fired = false;
@@ -418,12 +420,13 @@ void Player::updateLoc(const Keyboard &kbd)
 	if (isMissile2Fired)
 	{
 		(*mis2).UpdateMissile();
-		if ((*mis2).xLoc >= Graphics::ScreenWidth - 5)
+		if ((*mis2).xLoc >= Graphics::ScreenWidth - 5 || (*mis2).xLoc<=2)
 		{
 			delete(mis2);
 			isMissile2Fired = false;
 			missileCounter -= 1;
 		}
+
 
 	}
 }

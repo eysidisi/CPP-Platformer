@@ -14,5 +14,8 @@ void Missile::DrawMissile(Graphics &gfx)
 
 void Missile::UpdateMissile()
 {
-	xLoc += speed;
+	
+		xLoc += speed;
+	
+
 }
