@@ -4,10 +4,18 @@
 class Missile
 {
 public:
-	Missile(int xLoc = 0, int yLoc = 0) :xLoc(xLoc), yLoc(yLoc) {};
+	Missile(int xLoc = 0, int yLoc = 0, bool isGoingRight=true) :xLoc(xLoc), yLoc(yLoc), isGoingRight(isGoingRight) 
+	{
+		if (isGoingRight)
+			speed = speedReal;
+		else
+			speed = -speedReal;
+		};
 	~Missile();
 	int xLoc, yLoc;
-	const int speed = 5,length=5;
+	 int speed ,length=5;
+	 const int speedReal = 10;
+	bool isGoingRight;
 
 public:
 	void DrawMissile(Graphics &gfx);

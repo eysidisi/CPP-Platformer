@@ -24,6 +24,7 @@
 #include "Mouse.h"
 #include "Graphics.h"
 #include "Platform.h"
+#include "Goal.h"
 class Game
 {
 public:
@@ -46,7 +47,9 @@ private:
 	/*  User Variables              */
 	Player player;
 	const int  numberOfPlatforms = 8;
+	const int numberOfGoals = 8;
 	Platform platform[8];
+	Goal goals[8];
 	int ground = Graphics::ScreenHeight - 23;
 	bool playerIsCollading = false;
 	/********************************/

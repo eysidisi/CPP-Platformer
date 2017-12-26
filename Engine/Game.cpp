@@ -33,6 +33,9 @@ Game::Game( MainWindow& wnd )
 
 	for (int n = 4; n < numberOfPlatforms ; n++)
 		platform[n].init(50 + n * 90, 560 - 10 * (7-n), 50, 2);
+
+	for (int n = 0; n < numberOfGoals; n++)
+		goals[n].init(platform[n].getXloc()+platform[n].getLength()/2-Goal::goalWidth/2, platform[n].getYloc());
 }
 
 void Game::Go()
@@ -68,6 +71,9 @@ void Game::ComposeFrame()
 	player.drawPlayer(gfx);
 	for (int n = 0; n < numberOfPlatforms; n++)
 		platform[n].drawPlatform(gfx);
+
+	for (int n = 0; n < numberOfGoals; n++)
+		goals[n].drawGoal(gfx);
 	
 }
 
