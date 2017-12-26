@@ -383,7 +383,7 @@ void Player::updateLoc(const Keyboard &kbd)
 	{
 		x = 0;
 	}
-
+	// ----------------------------Ates etme------------------------------------
 	if (kbd.KeyIsPressed(VK_CONTROL) && missileCounter<2)
 	{
 
