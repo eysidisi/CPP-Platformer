@@ -77,7 +77,7 @@ void Game::UpdateModel()
 		}
 
 		player.setBaseY(ground);
-		player.updateLoc(wnd.kbd);
+		player.updateLoc( wnd.kbd);
 
 		for (int n = 0; n < numberOfGoals; n++)
 		{
