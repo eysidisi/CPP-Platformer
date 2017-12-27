@@ -338,6 +338,8 @@ void Player::drawPlayer( Graphics &gfx) const
 
 void Player::updateLoc(const Keyboard &kbd)
 {
+	
+
 	// JUMPING CODE--------------------------------
 	if (kbd.KeyIsPressed(VK_SPACE)&&jumpFlag==0)//---------
 	{											//---------
@@ -385,25 +387,34 @@ void Player::updateLoc(const Keyboard &kbd)
 	{
 		x = 0;
 	}
+
 	// ----------------------------Firing Missile------------------------------------
-	if (kbd.KeyIsPressed(VK_CONTROL) && missileCounter<2)
+	if ( missileCounter<2 &&isFiringEnabled)
 	{
 
-		if (isMissile1Fired==false)
+		if (isMissile1Fired==false && kbd.KeyIsPressed(VK_CONTROL))
 		{
 			mis1 = new Missile(x + Player::xDimension, y + Player::yDimension / 2,isLookingRight);
 			isMissile1Fired = true; 
 			missileCounter += 1;
 		}
 
-		else if (isMissile2Fired == false)
+
+		else if (isMissile2Fired == false && kbd.KeyIsPressed(VK_CONTROL))
 		{
 			mis2 = new Missile(x + Player::xDimension, y + Player::yDimension / 2,isLookingRight);
 			isMissile2Fired = true;
 			missileCounter += 1;
 
 		}
+		
+
 	}
+
+	if (kbd.KeyIsPressed(VK_CONTROL))
+		isFiringEnabled = false;
+	else
+		isFiringEnabled = true;
 
 	if (isMissile1Fired)
 	{

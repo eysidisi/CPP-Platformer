@@ -25,6 +25,8 @@
 #include "Graphics.h"
 #include "Platform.h"
 #include "Goal.h"
+#include <iostream>
+using namespace std;
 class Game
 {
 public:
@@ -38,6 +40,7 @@ private:
 	/********************************/
 	/*  User Functions              */
 	bool isCollading(Player & player, Platform& platform) const;
+	bool goalAndPlayerColliding(int obj1XLoc, int obj1YLoc, int obj1Length, int obj1Width, int obj2XLoc, int obj2YLoc, int obj2Length, int obj2Width);
 	/********************************/
 private:
 	MainWindow& wnd;
@@ -52,5 +55,8 @@ private:
 	Goal goals[8];
 	int ground = Graphics::ScreenHeight - 23;
 	bool playerIsCollading = false;
+	
+	bool isGoalTaken[8] = {false};
+	bool gameStarted = false;
 	/********************************/
 };
