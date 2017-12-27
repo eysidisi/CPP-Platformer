@@ -8,7 +8,7 @@
 class Player
 {
 public:
-	Player(int xLoc=0, int yLoc=Graphics::ScreenHeight-23, int speed=5) :x(xLoc), y(yLoc), speed(speed),baseY(yLoc) {};
+	Player(int xLoc=0, int yLoc=Graphics::ScreenHeight-23, int speed=3) :x(xLoc), y(yLoc), speed(speed),baseY(yLoc) {};
 	~Player();
 	void drawPlayer( Graphics &gfx) const;
 	void updateLoc(const Keyboard &kbd);
