@@ -4,6 +4,8 @@ Player::~Player()
 {
 }
 
+
+
 void Player::drawPlayer( Graphics &gfx) const 
 {
 	{
@@ -325,15 +327,15 @@ void Player::drawPlayer( Graphics &gfx) const
 		gfx.PutPixel(12 + x, 19 + y, 0, 0, 0);
 	}
 
-	if (isMissile1Fired)
+
+	for (int n = 0; n < numberOfMissiles ; n++)
 	{
-		(*mis1).DrawMissile(gfx);
+		if (isMissileFired[n])
+		{
+			(*mis[n]).DrawMissile(gfx);
+		}
 	}
 
-	if (isMissile2Fired)
-	{
-		(*mis2).DrawMissile(gfx);
-	}
 }
 
 void Player::updateLoc(const Keyboard &kbd)
@@ -389,24 +391,26 @@ void Player::updateLoc(const Keyboard &kbd)
 	}
 
 	// ----------------------------Firing Missile------------------------------------
-	if ( missileCounter<2 &&isFiringEnabled)
+	if ( isFiringEnabled)
 	{
-
-		if (isMissile1Fired==false && kbd.KeyIsPressed(VK_CONTROL))
+		for(int n=0;n<numberOfMissiles;n++)
+		if (isMissileFired[n]==false && kbd.KeyIsPressed(VK_CONTROL) && isFiringEnabled)
 		{
-			mis1 = new Missile(x + Player::xDimension, y + Player::yDimension / 2,isLookingRight);
-			isMissile1Fired = true; 
+			mis[n] = new Missile(x + Player::xDimension, y + Player::yDimension / 2,isLookingRight);
+			
+			isMissileFired[n] = true; 
+			
 			missileCounter += 1;
+			
+			if (kbd.KeyIsPressed(VK_CONTROL))
+				isFiringEnabled = false;
+			else
+				isFiringEnabled = true;
+
 		}
 
 
-		else if (isMissile2Fired == false && kbd.KeyIsPressed(VK_CONTROL))
-		{
-			mis2 = new Missile(x + Player::xDimension, y + Player::yDimension / 2,isLookingRight);
-			isMissile2Fired = true;
-			missileCounter += 1;
-
-		}
+		
 		
 
 	}
@@ -415,31 +419,23 @@ void Player::updateLoc(const Keyboard &kbd)
 		isFiringEnabled = false;
 	else
 		isFiringEnabled = true;
+	
 
-	if (isMissile1Fired)
+	for (int n = 0; n < numberOfMissiles ; n++)
 	{
-		(*mis1).UpdateMissile();
-		if ((*mis1).xLoc >= Graphics::ScreenWidth - 5 || (*mis1).xLoc <= 2)
+		if (isMissileFired[n])
 		{
-			delete(mis1);
-			isMissile1Fired = false;
-			missileCounter -= 1;
+			(*mis[n]).UpdateMissile();
+			if ((*mis[n]).xLoc >= Graphics::ScreenWidth - 5 || (*mis[n]).xLoc <= 2)
+			{
+				delete(mis[n]);
+				isMissileFired[n] = false;
+				missileCounter -= 1;
+			}
+
 		}
-
 	}
-
-	if (isMissile2Fired)
-	{
-		(*mis2).UpdateMissile();
-		if ((*mis2).xLoc >= Graphics::ScreenWidth - 5 || (*mis2).xLoc<=2)
-		{
-			delete(mis2);
-			isMissile2Fired = false;
-			missileCounter -= 1;
-		}
-
-
-	}
+	
 }
 
 int Player::getXloc()
