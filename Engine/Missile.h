@@ -14,7 +14,7 @@ public:
 	~Missile();
 	int xLoc, yLoc;
 	 int speed ,length=5;
-	 const int speedReal = 10;
+	 const int speedReal = 6;
 	bool isGoingRight;
 
 public:
