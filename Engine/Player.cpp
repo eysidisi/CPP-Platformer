@@ -391,7 +391,7 @@ void Player::updateLoc(const Keyboard &kbd)
 	}
 
 	// ----------------------------Firing Missile------------------------------------
-	if ( isFiringEnabled)
+	if ( isFiringEnabled && (missileCounter<numberOfMissiles))
 	{
 		for(int n=0;n<numberOfMissiles;n++)
 		if (isMissileFired[n]==false && kbd.KeyIsPressed(VK_CONTROL) && isFiringEnabled)
@@ -406,14 +406,8 @@ void Player::updateLoc(const Keyboard &kbd)
 				isFiringEnabled = false;
 			else
 				isFiringEnabled = true;
-
+			}
 		}
-
-
-		
-		
-
-	}
 
 	if (kbd.KeyIsPressed(VK_CONTROL))
 		isFiringEnabled = false;

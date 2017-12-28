@@ -57,17 +57,9 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (!gameStarted)
-	{
-		gfx.BeginFrame();
-		cout << "Please Press SPACE to start the game" << endl;
-		if (wnd.kbd.KeyIsPressed(VK_SPACE))
-		{
-			gameStarted = true;
-		}
-	}
-	if (gameStarted)
-	{
+	
+	
+	
 		ground = Graphics::ScreenHeight - 23;
 		for (int n = 0; n < numberOfPlatforms; n++)
 		{
@@ -87,15 +79,14 @@ void Game::UpdateModel()
 				isGoalTaken[n] = true;
 		}
 
-	}
+	
 }
 
 
 
 void Game::ComposeFrame()
 {
-	if (gameStarted)
-	{
+	
 		player.drawPlayer(gfx);
 		for (int n = 0; n < numberOfPlatforms; n++)
 			platform[n].drawPlatform(gfx);
@@ -108,7 +99,7 @@ void Game::ComposeFrame()
 				goals[n].drawGoal(gfx);
 			}
 		}
-	}
+	
 }
 
 bool Game::isCollading(Player & player, Platform& platform) const

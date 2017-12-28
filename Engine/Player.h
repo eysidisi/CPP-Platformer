@@ -17,9 +17,9 @@ public:
 	void setBaseY( int newBaseY);
 static const int xDimension = 20;
 static const int yDimension = 20;
-Missile* mis[3];
-int numberOfMissiles = 3;
-bool isMissileFired[3] = { false };
+Missile* mis[4];
+int numberOfMissiles = 4;
+bool isMissileFired[4] = { false };
 bool isFiringEnabled = true;
 int missileCounter = 0;
 bool isLookingRight = true;
