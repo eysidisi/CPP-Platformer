@@ -8,18 +8,18 @@
 class Player
 {
 public:
-	Player(int xLoc=0, int yLoc=Graphics::ScreenHeight-23, int speed=3) :x(xLoc), y(yLoc), speed(speed),baseY(yLoc) {};
+	Player(int xLoc=0, int yLoc=Graphics::ScreenHeight-20, int speed=3) :x(xLoc), y(yLoc), speed(speed),baseY(yLoc) {};
 	~Player();
 	void drawPlayer( Graphics &gfx) const;
 	void updateLoc(const Keyboard &kbd);
 	int getXloc();
 	int getYloc();
 	void setBaseY( int newBaseY);
-static const int xDimension = 20;
-static const int yDimension = 20;
-Missile* mis[4];
-int numberOfMissiles = 4;
-bool isMissileFired[4] = { false };
+static const int xDimension = 19;
+static const int yDimension = 19;
+Missile* mis[5];
+int numberOfMissiles = 5;
+bool isMissileFired[5] = { false };
 bool isFiringEnabled = true;
 int missileCounter = 0;
 bool isLookingRight = true;

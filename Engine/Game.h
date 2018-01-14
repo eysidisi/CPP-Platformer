@@ -25,6 +25,7 @@
 #include "Graphics.h"
 #include "Platform.h"
 #include "Goal.h"
+#include "Opponent.h"
 #include <iostream>
 using namespace std;
 class Game
@@ -49,14 +50,15 @@ private:
 	/********************************/
 	/*  User Variables              */
 	Player player;
+	Opponent opponent;
 	const int  numberOfPlatforms = 8;
-	const int numberOfGoals = 8;
+	const int numberOfGoals = 9;
 	Platform platform[8];
-	Goal goals[8];
+	Goal goals[9];
 	int ground = Graphics::ScreenHeight - 23;
 	bool playerIsCollading = false;
 	
-	bool isGoalTaken[8] = {false};
+	bool isGoalTaken[9] = {false};
 	bool gameStarted = false;
 	/********************************/
 };
