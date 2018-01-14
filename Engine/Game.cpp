@@ -29,16 +29,17 @@ Game::Game( MainWindow& wnd )
 	
 {
 	for (int n = 0; n < numberOfPlatforms-4; n++)
-		platform[n].init(50 + n * 90, 560-10*n , 50, 2);
+		platform[n].init(50 + n * 90, 560-10*n , 50, 1);
 
 	for (int n = 4; n < numberOfPlatforms ; n++)
-		platform[n].init(50 + n * 90, 560 - 10 * (7-n), 50, 2);
+		platform[n].init(50 + n * 90, 560 - 10 * (7-n), 50, 1);
 
 	for (int n = 0; n < numberOfGoals; n++)
 	{	
-		if(!isGoalTaken[n])
 		goals[n].init(platform[n].getXloc() + platform[n].getLength() / 2 - Goal::goalWidth / 2, platform[n].getYloc());
 	}
+
+	goals[8].init(720, Graphics::ScreenHeight-1);
 }
 
 void Game::Go()
@@ -70,6 +71,7 @@ void Game::UpdateModel()
 
 		player.setBaseY(ground);
 		player.updateLoc( wnd.kbd);
+		opponent.update(goals, numberOfGoals, isGoalTaken);
 
 		for (int n = 0; n < numberOfGoals; n++)
 		{
@@ -88,6 +90,7 @@ void Game::ComposeFrame()
 {
 	
 		player.drawPlayer(gfx);
+		opponent.Draw(gfx);
 		for (int n = 0; n < numberOfPlatforms; n++)
 			platform[n].drawPlatform(gfx);
 
@@ -105,7 +108,7 @@ void Game::ComposeFrame()
 bool Game::isCollading(Player & player, Platform& platform) const
 {
 	return (((player.getXloc() + Player::xDimension / 2) > platform.getXloc()) && ((player.getXloc() + Player::xDimension / 2) < (platform.getXloc() + platform.getLength())) &&
-		((player.getYloc() + Player::yDimension) < platform.getYloc() ));
+		((player.getYloc() + Player::yDimension) > platform.getYloc())-platform.getWidth());
 
 }
 

@@ -18,11 +18,11 @@ void Platform::drawPlatform(Graphics & gfx) const
 		gfx.PutPixel(i, yLoc + width, Colors::White);
 	
 	
-	for (int i = yLoc; i <= yLoc+ + width; i++)
+	for (int i = yLoc; i <= yLoc+  width; i++)
 		gfx.PutPixel(xLoc, i, Colors::White);
 
-	for (int i = yLoc; i <= yLoc + +width; i++)
-		gfx.PutPixel(xLoc+length, i, Colors::White);
+	for (int i = yLoc; i <= yLoc + width; i++)
+		gfx.PutPixel(xLoc + length, i, Colors::White);
 }
 
 int Platform::getXloc()
