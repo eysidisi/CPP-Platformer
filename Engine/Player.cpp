@@ -359,17 +359,20 @@ void Player::updateLoc(const Keyboard &kbd)
 												//---------
 	 if (jumpFlag == 2)							//---------
 	{											//---------
-		if (y <= baseY)							//---------
+		if (y < baseY)							//---------
 			y += jumpSpeed;						//---------
+		if (y > baseY)
+			y = baseY;
 		else									//---------
-			jumpFlag = 0;						//---------
+			jumpFlag = 0;
+									//---------
 	}											//---------
 												//---------
-	//----------------------------------------	//---------
-
-	 if (jumpFlag == 0 && baseY > y)
-		 jumpFlag = 2;
-
+												//---------
+												//---------
+	 if (jumpFlag == 0 && baseY > y)			//---------
+		 jumpFlag = 2;							//---------
+	 //----------------------------------------
 	if (kbd.KeyIsPressed(VK_RIGHT))
 	{
 		x += speed;
