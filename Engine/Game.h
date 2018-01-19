@@ -41,6 +41,7 @@ private:
 	/********************************/
 	/*  User Functions              */
 	bool isCollading(Player & player, Platform& platform) const;
+	bool isCollading(Opponent & opponent, Platform & platform) const;
 	bool goalAndPlayerColliding(int obj1XLoc, int obj1YLoc, int obj1Length, int obj1Width, int obj2XLoc, int obj2YLoc, int obj2Length, int obj2Width);
 	/********************************/
 private:
@@ -51,11 +52,12 @@ private:
 	/*  User Variables              */
 	Player player;
 	Opponent opponent;
-	const int  numberOfPlatforms = 8;
-	const int numberOfGoals = 9;
+	 const int  numberOfPlatforms = 8;
+	 const int numberOfGoals = 9;
 	Platform platform[8];
 	Goal goals[9];
-	int ground = Graphics::ScreenHeight - 23;
+	int playerGround = Graphics::ScreenHeight - 20;
+	int opponentGround= Graphics::ScreenHeight - 20;
 	bool playerIsCollading = false;
 	
 	bool isGoalTaken[9] = {false};

@@ -1,9 +1,132 @@
 #include "Opponent.h"
-#include <math.h>
-
-
 Opponent::~Opponent()
 {
+}
+
+void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platform *platform)
+{	//jump code
+	
+		if (isJumping&& jumpFlag == 0)						//---------
+		{											//---------
+			jumpFlag = 1;							//---------
+			startingY = yLoc;
+		}											//---------
+													//---------
+		if (jumpFlag == 1)							//---------
+		{											//---------
+			if (yLoc >= (startingY - jumpLenght))		//---------
+				yLoc -= jumpSpeed;	
+							//---------
+			else									
+				jumpFlag = 2;						
+		}											
+													
+		if (jumpFlag == 2)							
+		{											
+			if (yLoc < baseY)
+			{
+				yLoc += jumpSpeed;
+				if (yLoc > baseY)
+					yLoc = baseY;
+			}
+			else									
+			{
+				jumpFlag = 0;
+				isJumping = false;
+				if (yLoc + Opponent::yDimension > Graphics::ScreenHeight)
+					yLoc = Graphics::ScreenHeight - Opponent::yDimension - 1;
+				startingY = yLoc;
+			}										//---------
+		}											//---------
+													//---------
+													//---------
+													//---------
+		if (jumpFlag == 0 && baseY > yLoc)			//---------
+			jumpFlag = 2;							//---------
+													//----------------------------------------
+
+	
+
+	closestToken=findClosestToken(goals, numberOfGoals, isGoalTaken);
+	isTokenAtSameLevel = ifTokenAtSameLevel(goals[closestToken]);
+
+	if (isTokenAtSameLevel)
+	{
+		goAndGet(goals, closestToken);
+	}
+
+	if (!isTokenAtSameLevel)
+	{
+		isTokenAtUpperLevel = ifTokenAtUpperLevel(goals[closestToken]);
+		
+		if (isTokenAtUpperLevel)
+		{
+			isPlatformReachable = ifPlatformReachable(platform[closestToken]);
+
+			if (isPlatformReachable)
+			{
+				isCloseEnough = ifCloseEnough(platform[closestToken]);
+
+				if (isCloseEnough)
+				{	
+					isJumping = true;
+
+					getToThePlatform(platform[closestToken]);
+
+				}
+
+				if (!isCloseEnough)
+				{
+					getCloseToPlatform(platform[closestToken]);
+				}
+			}
+		}
+		else                                            //Token is at lower level
+		{
+			isItReachableAtLowerLevel = ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)],platform[closestToken]);
+			
+			if (isItReachableAtLowerLevel)
+			{
+				isJumping = true;
+
+				getToThePlatform(platform[closestToken]);
+
+			}
+		}
+	}
+
+	if (yLoc + Opponent::yDimension > Graphics::ScreenHeight )
+		yLoc = Graphics::ScreenHeight - Opponent::yDimension - 1;
+}
+
+bool Opponent::ifTokenAtSameLevel(Goal & token) const
+{
+
+	return (token.getYLoc()==yLoc+Opponent::yDimension);
+}
+
+bool Opponent::ifTokenAtUpperLevel(Goal & token) const
+{
+	return (token.getYLoc()<startingY+Opponent::xDimension);
+}
+
+bool Opponent::ifPlatformReachable(Platform & platform) const
+{
+	return ((startingY - jumpLenght + Opponent::yDimension) < platform.getYloc());
+}
+
+bool Opponent::ifCloseEnough(Platform & platform) const
+{
+	return ((abs(xLoc + Opponent::xDimension / 2 - platform.getXloc()) <= 50) || (abs(xLoc + Opponent::xDimension / 2 - platform.getXloc() - platform.getLength()) <= 50));
+	
+}
+
+void Opponent::goAndGet(Goal * goals, int wantedGoal) 
+{
+	if (xLoc > goals[wantedGoal].getXLoc())
+		xLoc = xLoc - speed;
+	else
+		xLoc = xLoc + speed;
 }
 
 void Opponent::Draw(Graphics &gfx)
@@ -326,15 +449,15 @@ void Opponent::Draw(Graphics &gfx)
 	gfx.PutPixel(12 + xLoc, 19 + yLoc, 0, 0, 0);
 }
 
-int Opponent::findClosestToken(Goal* goals, int numberOfGoals, bool* isGoalTaken ) const
+int Opponent::findClosestToken(Goal* goals, int numberOfGoals, bool* isGoalTaken) const
 {
-	int distance = 99999999;
+	double distance = 99999999;
 	int placeOfGoal;
 	for (int n = 0; n < numberOfGoals; n++)
 	{
 		if (!isGoalTaken[n])
 		{
-			int newDistance = getDistance(xLoc, goals[n].getXLoc(), yLoc, goals[n].getYLoc());
+			double newDistance = getDistance(xLoc, goals[n].getXLoc(), startingY, goals[n].getYLoc());
 
 			if (newDistance < distance)
 			{
@@ -347,18 +470,105 @@ int Opponent::findClosestToken(Goal* goals, int numberOfGoals, bool* isGoalTaken
 	return placeOfGoal;
 }
 
-int Opponent::getDistance(int x1, int x2, int y1, int y2) const
+double Opponent::getDistance(int x1, int x2, int y1, int y2) const
 {
-	return sqrt((x2 - x1) ^ 2+ (y2 - y1) ^ 2);
+	return sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2);
 }
 
-void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken)
+
+int Opponent::getXloc()
 {
-	findClosestToken(goals, numberOfGoals, isGoalTaken);
+	return xLoc;
 }
 
-bool Opponent::isTokenAtSameLevel(Goal & token) const
+int Opponent::getYloc()
 {
-
-	return (token.getYLoc()+token.goalHeight==yLoc+Opponent::yDimension);
+	return yLoc;
 }
+
+void Opponent::setBaseY(int newBaseY)
+{
+	this->baseY = newBaseY;
+}
+
+void Opponent::getToThePlatform(Platform & platform)
+{
+	if (xLoc + Opponent::xDimension / 2 > (platform.getXloc() + platform.getLength() / 2))
+	{
+		xLoc = xLoc - speed;
+
+		if (xLoc + Opponent::xDimension / 2 < (platform.getXloc() + platform.getLength() / 2))
+			xLoc = (platform.getXloc() + platform.getLength() / 2) - Opponent::xDimension / 2;
+	}
+	else if (xLoc + Opponent::xDimension / 2 < (platform.getXloc() + platform.getLength() / 2))
+	{
+		xLoc = xLoc + speed;
+		
+		if(xLoc + Opponent::xDimension / 2 > (platform.getXloc() + platform.getLength() / 2))
+			xLoc = (platform.getXloc() + platform.getLength() / 2) - Opponent::xDimension / 2;
+	}
+}
+
+void Opponent::getCloseToPlatform(Platform & platform) 
+{
+	if (abs(xLoc + Opponent::xDimension - platform.getXloc()) < abs(xLoc + Opponent::xDimension - platform.getXloc() - platform.getLength()))
+	{
+		if (xLoc + Opponent::xDimension > platform.getXloc())
+			xLoc = xLoc - speed;
+		else
+			xLoc = xLoc + speed;
+
+	}
+	else
+		if (xLoc + Opponent::xDimension > platform.getXloc()+ platform.getLength())
+			xLoc = xLoc - speed;
+		else
+			xLoc = xLoc + speed;
+
+}
+
+
+bool Opponent::ifItReachableAtLowerLevel(Platform playerP, Platform p2) const
+{
+	int numOfDifference = (playerP.getYloc() - p2.getYloc()) / 25;
+
+	numOfDifference *= 100;
+
+	if (playerP.getXloc() > p2.getXloc())
+	{
+		if (playerP.getXloc() - p2.getXloc() - p2.getLength() < numOfDifference)
+			return true;
+		else
+			return false;
+
+	}
+
+	else
+	{
+
+		if (p2.getXloc() - playerP.getXloc() - playerP.getLength() < numOfDifference)
+			return true;
+		else
+			return false;
+
+	}
+	
+}
+
+int Opponent::findTheRelatedPlatform(Platform * platform) //opponentin oldugu platformu bulur
+{
+	double distance = 999999;
+	int platformNumber;
+	for (int n = 0; n < numberOfPlatforms; n++)
+	{
+		int newDistance = getDistance(xLoc, platform[n].getXloc(), yLoc, platform[n].getYloc());
+		if (newDistance < distance)
+		{
+			distance = newDistance;
+			platformNumber = n;
+		}
+	}
+
+	return platformNumber;
+}
+
