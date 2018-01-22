@@ -80,6 +80,125 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 					getCloseToPlatform(platform[closestToken]);
 				}
 			}
+
+			if (!isPlatformReachable)
+			{
+				int tagettedPlatform = closestToken;
+
+				if (baseY == Graphics::ScreenHeight - 20 && (startingY== Graphics::ScreenHeight - 20))
+				{
+					if (closestToken > 3)
+					{
+						if (ifCloseEnough(platform[7]))
+						{
+							isJumping = true;
+
+							getToThePlatform(platform[7]);
+
+						}
+
+						else if (!ifCloseEnough(platform[7]))
+						{
+							getCloseToPlatform(platform[7]);
+						}
+					}
+
+					else if (closestToken <= 3)
+					{
+						if (ifCloseEnough(platform[0]))
+						{
+							isJumping = true;
+
+							getToThePlatform(platform[0]);
+
+						}
+
+						else if (!ifCloseEnough(platform[0]))
+						{
+							getCloseToPlatform(platform[0]);
+						}
+
+					}
+
+				}
+
+				else	if (closestToken < 4 && (findTheRelatedPlatform(platform) < 4))
+				{
+					while (ifPlatformReachable(platform[tagettedPlatform]) == false)
+						tagettedPlatform -= 1;
+					
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+						
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+
+				}
+
+				else if (closestToken < 4 && (findTheRelatedPlatform(platform) >= 5))
+				{
+					while (ifPlatformReachable(platform[tagettedPlatform]) == false)
+						tagettedPlatform += 1;
+
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+				}
+
+				else if (closestToken >= 4 && (findTheRelatedPlatform(platform) < 4))
+				{
+					while (ifPlatformReachable(platform[tagettedPlatform]) == false)
+						tagettedPlatform -= 1;
+
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+				}
+
+				else if(closestToken >= 4 && (findTheRelatedPlatform(platform) >= 5))
+				{
+					while (ifPlatformReachable(platform[tagettedPlatform]) == false)
+						tagettedPlatform += 1;
+
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+				}
+			}
 		}
 		else                                            //Token is at lower level
 		{
@@ -91,6 +210,86 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 
 				getToThePlatform(platform[closestToken]);
 
+			}
+
+			if(!isItReachableAtLowerLevel)
+			{
+				int tagettedPlatform = closestToken;
+				if (closestToken < 4 && (findTheRelatedPlatform(platform) < 4))
+				{
+					while (ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)],platform[tagettedPlatform]) == false)
+						tagettedPlatform += 1;
+
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+
+				}
+				else if (closestToken < 4 && (findTheRelatedPlatform(platform) >= 4))
+				{
+					while (ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)], platform[tagettedPlatform]) == false)
+						tagettedPlatform += 1;
+
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+				}
+
+				else if (closestToken >= 4 && (findTheRelatedPlatform(platform) < 4))
+				{
+					while (ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)], platform[tagettedPlatform]) == false)
+						tagettedPlatform -= 1;
+
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+				}
+			
+				else if (closestToken >= 4 && (findTheRelatedPlatform(platform) >= 4))
+				{
+					while (ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)], platform[tagettedPlatform]) == false)
+						tagettedPlatform -= 1;
+
+					if (ifCloseEnough(platform[tagettedPlatform]))
+					{
+						isJumping = true;
+
+						getToThePlatform(platform[tagettedPlatform]);
+
+					}
+
+					else if (!ifCloseEnough(platform[tagettedPlatform]))
+					{
+						getCloseToPlatform(platform[tagettedPlatform]);
+					}
+				}
 			}
 		}
 	}
@@ -117,7 +316,7 @@ bool Opponent::ifPlatformReachable(Platform & platform) const
 
 bool Opponent::ifCloseEnough(Platform & platform) const
 {
-	return ((abs(xLoc + Opponent::xDimension / 2 - platform.getXloc()) <= 50) || (abs(xLoc + Opponent::xDimension / 2 - platform.getXloc() - platform.getLength()) <= 50));
+	return ((abs(xLoc + Opponent::xDimension / 2 - platform.getXloc()) <= 40) || (abs(xLoc + Opponent::xDimension / 2 - platform.getXloc() - platform.getLength()) <= 40));
 	
 }
 
@@ -472,7 +671,10 @@ int Opponent::findClosestToken(Goal* goals, int numberOfGoals, bool* isGoalTaken
 
 double Opponent::getDistance(int x1, int x2, int y1, int y2) const
 {
-	return sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2);
+	double a = pow((x2 - x1),2) ;
+	a = a + pow((y2 - y1) , 2);
+	a = sqrtf(a);
+	return a;
 }
 
 
@@ -530,8 +732,11 @@ void Opponent::getCloseToPlatform(Platform & platform)
 
 bool Opponent::ifItReachableAtLowerLevel(Platform playerP, Platform p2) const
 {
-	int numOfDifference = (playerP.getYloc() - p2.getYloc()) / 25;
-
+	int numOfDifference = (p2.getYloc() - playerP.getYloc()) / 25;
+	
+	if (numOfDifference == 0)
+		numOfDifference = 1;
+	
 	numOfDifference *= 100;
 
 	if (playerP.getXloc() > p2.getXloc())
@@ -561,7 +766,7 @@ int Opponent::findTheRelatedPlatform(Platform * platform) //opponentin oldugu pl
 	int platformNumber;
 	for (int n = 0; n < numberOfPlatforms; n++)
 	{
-		int newDistance = getDistance(xLoc, platform[n].getXloc(), yLoc, platform[n].getYloc());
+		double newDistance = getDistance(xLoc, platform[n].getXloc(), yLoc, platform[n].getYloc());
 		if (newDistance < distance)
 		{
 			distance = newDistance;

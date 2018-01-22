@@ -27,6 +27,11 @@
 #include "Goal.h"
 #include "Opponent.h"
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
+#include <chrono>
+#include <ratio>
+
 using namespace std;
 class Game
 {
@@ -53,13 +58,16 @@ private:
 	Player player;
 	Opponent opponent;
 	 const int  numberOfPlatforms = 8;
-	 const int numberOfGoals = 9;
+	 const int numberOfGoals = 8;
 	Platform platform[8];
-	Goal goals[9];
+	Goal goals[8];
 	int playerGround = Graphics::ScreenHeight - 20;
 	int opponentGround= Graphics::ScreenHeight - 20;
 	bool playerIsCollading = false;
-	
+	long int oldTime;
+	long int newTime;
+	high_resolution_clock::time_point t1;
+	high_resolution_clock::time_point t2;
 	bool isGoalTaken[9] = {false};
 	bool gameStarted = false;
 	/********************************/

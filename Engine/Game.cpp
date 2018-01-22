@@ -1,5 +1,5 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
+/******************************************************************************************
+ *	Chili DirectX Framework Version 16.07.20											  *
  *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
@@ -21,102 +21,125 @@
 #include "MainWindow.h"
 #include "Game.h"
 
-Game::Game( MainWindow& wnd )
-	:
-	wnd( wnd ),
-	gfx( wnd )
+using namespace std::chrono;
 
-	
+Game::Game(MainWindow& wnd)
+	:
+	wnd(wnd),
+	gfx(wnd)
+
+
 {
 	for (int n = 0; n < numberOfPlatforms - 4; n++)
 		platform[n].init(50 + n * 90, 560 - 25 * n, 50, 0);
 
 	for (int n = 4; n < numberOfPlatforms; n++)
-		platform[n].init(50 + n * 90, 560 - 26 * (7 - n), 50,0);
+		platform[n].init(50 + n * 90, 560 - 26 * (7 - n), 50, 0);
 
 	for (int n = 0; n < numberOfGoals; n++)
-	{	
+	{
 		goals[n].init(platform[n].getXloc() + platform[n].getLength() / 2 - Goal::goalWidth / 2, platform[n].getYloc());
 	}
 
-	goals[8].init(700, Graphics::ScreenHeight-1);
+	/*for (int n = 0; n < numberOfGoals; n++)
+	{
+		isGoalTaken[n] = true;
+	}
+
+	isGoalTaken[2] = false;
+	isGoalTaken[4] = false;*/
+
+
 }
 
 void Game::Go()
 {
-	
-	
 
 
-	
-		gfx.BeginFrame();
-		UpdateModel();
-		ComposeFrame();
-		gfx.EndFrame();
-	
+
+
+
+	gfx.BeginFrame();
+	UpdateModel();
+	ComposeFrame();
+	gfx.EndFrame();
+
 }
 
 void Game::UpdateModel()
 {
-	
-	
-	
-		playerGround = Graphics::ScreenHeight - 20;
-		opponentGround= Graphics::ScreenHeight - 20;
 
-		for (int n = 0; n < numberOfPlatforms; n++)
-		{
- 			if (isCollading(player, platform[n]) && (platform[n].getYloc() - Player::yDimension < playerGround))
 
-				playerGround = platform[n].getYloc()-Player::xDimension  ;
 
-			if (isCollading(opponent, platform[n]) && (platform[n].getYloc()  - Opponent::yDimension < opponentGround))
+	srand(time(NULL));
+	int ran = rand() % numberOfGoals;
 
-				opponentGround = platform[n].getYloc() -Opponent::xDimension ;
-		}
+	if (isGoalTaken[ran] == true)
+	{
+		oldTime = newTime;
+		isGoalTaken[ran] = false;
+	}
 
-		player.setBaseY(playerGround);
-		opponent.setBaseY(opponentGround);
-		player.updateLoc( wnd.kbd);
-		opponent.update(goals, numberOfGoals, isGoalTaken, platform);
 
-		for (int n = 0; n < numberOfGoals; n++)
-		{
-			if (goalAndPlayerColliding(player.getXloc(), player.getYloc(), Player::xDimension,
-				Player::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight
-			)|| goalAndPlayerColliding(opponent.getXloc(), opponent.getYloc(), Opponent::xDimension,
-				Opponent::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight))
-				isGoalTaken[n] = true;
-		}
+	playerGround = Graphics::ScreenHeight - 20;
+	opponentGround = Graphics::ScreenHeight - 20;
 
-	
+	for (int n = 0; n < numberOfPlatforms; n++)
+	{
+		if (isCollading(player, platform[n]) && (platform[n].getYloc() - Player::yDimension < playerGround))
+
+			playerGround = platform[n].getYloc() - Player::xDimension;
+
+		if (isCollading(opponent, platform[n]) && (platform[n].getYloc() - Opponent::yDimension < opponentGround))
+
+			opponentGround = platform[n].getYloc() - Opponent::xDimension;
+	}
+
+	player.setBaseY(playerGround);
+	opponent.setBaseY(opponentGround);
+	player.updateLoc(wnd.kbd);
+	opponent.update(goals, numberOfGoals, isGoalTaken, platform);
+
+	for (int n = 0; n < numberOfGoals; n++)
+	{
+		if (goalAndPlayerColliding(player.getXloc(), player.getYloc(), Player::xDimension,
+			Player::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight
+		) || goalAndPlayerColliding(opponent.getXloc(), opponent.getYloc(), Opponent::xDimension,
+			Opponent::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight))
+			isGoalTaken[n] = true;
+	}
+
+
 }
 
 
 
 void Game::ComposeFrame()
 {
-	
-		player.drawPlayer(gfx);
-		opponent.Draw(gfx);
-		for (int n = 0; n < numberOfPlatforms; n++)
-			platform[n].drawPlatform(gfx);
 
-		for (int n = 0; n < numberOfGoals; n++)
+	player.drawPlayer(gfx);
+	opponent.Draw(gfx);
+	for (int n = 0; n < numberOfPlatforms; n++)
+		platform[n].drawPlatform(gfx);
+
+
+
+	for (int n = 0; n < numberOfGoals; n++)
+	{
+
+		if (!isGoalTaken[n])
+
 		{
-			if (!isGoalTaken[n])
-
-			{
-				goals[n].drawGoal(gfx);
-			}
+			goals[n].drawGoal(gfx);
 		}
-	
+	}
+
 }
 
 bool Game::isCollading(Player & player, Platform& platform) const
 {
-	bool o = (player.getXloc() + Player::xDimension / 2) > platform.getXloc();
-	o = o && ((player.getXloc() + Player::xDimension / 2) < (platform.getXloc() + platform.getLength()));
+	bool o = (player.getXloc() + Player::xDimension) > platform.getXloc();
+	o = o && ((player.getXloc()) < (platform.getXloc() + platform.getLength()));
 	o = o && ((player.getYloc() + Player::yDimension) <= platform.getYloc());
 	return o;
 
@@ -124,13 +147,13 @@ bool Game::isCollading(Player & player, Platform& platform) const
 
 bool Game::isCollading(Opponent & opponent, Platform& platform) const
 {
-	bool o = (opponent.getXloc() + Opponent::xDimension / 2) > platform.getXloc();
-	o = o && ((opponent.getXloc() + Opponent::xDimension / 2) < (platform.getXloc() + platform.getLength()));
+	bool o = (opponent.getXloc() + Opponent::xDimension) > platform.getXloc();
+	o = o && ((opponent.getXloc()) < (platform.getXloc() + platform.getLength()));
 	o = o && ((opponent.getYloc() + Opponent::yDimension) <= platform.getYloc());
 	return o;
 }
 bool Game::goalAndPlayerColliding(int obj1XLoc, int obj1YLoc, int obj1Length, int obj1Width, int obj2XLoc, int obj2YLoc, int obj2Length, int obj2Width)
 {
 	return ((obj1XLoc + obj1Length > obj2XLoc) && (obj1XLoc < obj2XLoc + obj2Length) &&
-		(obj1YLoc + obj1Width > obj2YLoc - obj2Width) && (obj1YLoc < obj2YLoc ));
+		(obj1YLoc + obj1Width > obj2YLoc - obj2Width) && (obj1YLoc < obj2YLoc));
 }
