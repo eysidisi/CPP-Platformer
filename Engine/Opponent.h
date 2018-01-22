@@ -44,6 +44,7 @@ public:
 	void getCloseToPlatform(Platform& platform);
 	bool ifItReachableAtLowerLevel(Platform p1, Platform p2)const;
 	int findTheRelatedPlatform(Platform *platform);
+	
 
 
 
