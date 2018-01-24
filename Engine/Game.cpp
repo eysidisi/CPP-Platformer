@@ -21,7 +21,7 @@
 #include "MainWindow.h"
 #include "Game.h"
 
-using namespace std::chrono;
+
 
 Game::Game(MainWindow& wnd)
 	:
@@ -41,14 +41,14 @@ Game::Game(MainWindow& wnd)
 		goals[n].init(platform[n].getXloc() + platform[n].getLength() / 2 - Goal::goalWidth / 2, platform[n].getYloc());
 	}
 
-	/*for (int n = 0; n < numberOfGoals; n++)
+	/*for (int n = 4; n < numberOfGoals; n++)
 	{
 		isGoalTaken[n] = true;
-	}
+	}*/
 
-	isGoalTaken[2] = false;
-	isGoalTaken[4] = false;*/
-
+	/*isGoalTaken[7] = false;
+	isGoalTaken[5] = false;
+	isGoalTaken[3] = false;*/
 
 }
 
@@ -71,14 +71,14 @@ void Game::UpdateModel()
 
 
 
-	srand(time(NULL));
-	int ran = rand() % numberOfGoals;
+	//srand(time(NULL));
+	//int ran = rand() % numberOfGoals;
 
-	if (isGoalTaken[ran] == true)
-	{
-		oldTime = newTime;
-		isGoalTaken[ran] = false;
-	}
+	//if (isGoalTaken[ran] == true)
+	//{
+	//	
+	//	isGoalTaken[ran] = false;
+	//}
 
 
 	playerGround = Graphics::ScreenHeight - 20;
@@ -95,10 +95,7 @@ void Game::UpdateModel()
 			opponentGround = platform[n].getYloc() - Opponent::xDimension;
 	}
 
-	player.setBaseY(playerGround);
-	opponent.setBaseY(opponentGround);
-	player.updateLoc(wnd.kbd);
-	opponent.update(goals, numberOfGoals, isGoalTaken, platform);
+	
 
 	for (int n = 0; n < numberOfGoals; n++)
 	{
@@ -109,7 +106,10 @@ void Game::UpdateModel()
 			isGoalTaken[n] = true;
 	}
 
-
+	player.setBaseY(playerGround);
+	opponent.setBaseY(opponentGround);
+	player.updateLoc(wnd.kbd);
+	opponent.update(goals, numberOfGoals, isGoalTaken, platform);
 }
 
 
@@ -117,10 +117,6 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 
-	player.drawPlayer(gfx);
-	opponent.Draw(gfx);
-	for (int n = 0; n < numberOfPlatforms; n++)
-		platform[n].drawPlatform(gfx);
 
 
 
@@ -133,6 +129,10 @@ void Game::ComposeFrame()
 			goals[n].drawGoal(gfx);
 		}
 	}
+	player.drawPlayer(gfx);
+	opponent.Draw(gfx);
+	for (int n = 0; n < numberOfPlatforms; n++)
+		platform[n].drawPlatform(gfx);
 
 }
 
