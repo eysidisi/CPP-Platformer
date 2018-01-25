@@ -41,15 +41,16 @@ Game::Game(MainWindow& wnd)
 		goals[n].init(platform[n].getXloc() + platform[n].getLength() / 2 - Goal::goalWidth / 2, platform[n].getYloc());
 	}
 
-	/*for (int n = 4; n < numberOfGoals; n++)
+	/*for (int n = 0; n < numberOfGoals; n++)
 	{
 		isGoalTaken[n] = true;
-	}*/
+	}
 
-	/*isGoalTaken[7] = false;
+	isGoalTaken[7] = false;
 	isGoalTaken[5] = false;
-	isGoalTaken[3] = false;*/
-
+	isGoalTaken[2] = false;
+	*/
+	oldTime = time(NULL);
 }
 
 void Game::Go()
@@ -69,17 +70,22 @@ void Game::Go()
 void Game::UpdateModel()
 {
 
+	newTime = time(NULL);
 
+	srand(time(NULL));
+	
+	if (newTime - oldTime >= 1) 
+	{
+		int ran = rand() % numberOfGoals;
 
-	//srand(time(NULL));
-	//int ran = rand() % numberOfGoals;
+		if (isGoalTaken[ran] == true)
+		{
+			
+			isGoalTaken[ran] = false;
+			oldTime = newTime;
+		}
 
-	//if (isGoalTaken[ran] == true)
-	//{
-	//	
-	//	isGoalTaken[ran] = false;
-	//}
-
+	}
 
 	playerGround = Graphics::ScreenHeight - 20;
 	opponentGround = Graphics::ScreenHeight - 20;
