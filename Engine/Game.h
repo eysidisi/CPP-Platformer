@@ -64,7 +64,8 @@ private:
 	int playerGround = Graphics::ScreenHeight - 20;
 	int opponentGround= Graphics::ScreenHeight - 20;
 	bool playerIsCollading = false;
-	
+	long int newTime;
+	long int oldTime;
 	bool isGoalTaken[8] = {false};
 	bool gameStarted = false;
 	/********************************/

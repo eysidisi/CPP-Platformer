@@ -6,7 +6,7 @@
 class Opponent
 {
 public:
-	Opponent(int xLoc = Graphics::ScreenWidth - 20, int yLoc = Graphics::ScreenHeight - 20, int speed = 2) :xLoc(xLoc), yLoc(yLoc), speed(speed), baseY(yLoc),startingY(yLoc) {};
+	Opponent(int xLoc = Graphics::ScreenWidth - 20, int yLoc = Graphics::ScreenHeight - 20, int speed = 3) :xLoc(xLoc), yLoc(yLoc), speed(speed), baseY(yLoc),startingY(yLoc) {};
 	~Opponent();
 
 public:
@@ -22,6 +22,7 @@ public:
 	bool isItReachableAtLowerLevel = false;
 	bool isJumping = false;
 	bool isCloseEnough = false;
+	bool isThereAnyToken = false;
 	int jumpSpeed = 2;
 	int baseY;
 	int jumpFlag = 0;
@@ -36,6 +37,7 @@ public:
 	bool ifTokenAtUpperLevel(Goal& token) const;
 	bool ifPlatformReachable(Platform& platform) const;
 	bool ifCloseEnough(Platform& platform) const;
+	bool ifAnyToken(bool* isGoalTaken, int numberOfGoals);
 	void goAndGet(Goal* goals, int wantedGoal);
 	int getXloc();
 	int getYloc();
