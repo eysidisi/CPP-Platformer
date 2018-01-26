@@ -40,7 +40,8 @@ Game::Game(MainWindow& wnd)
 	{
 		goals[n].init(platform[n].getXloc() + platform[n].getLength() / 2 - Goal::goalWidth / 2, platform[n].getYloc());
 	}
-
+	playerScore.score = 0;
+	opponentScore.score = 0;
 	/*for (int n = 0; n < numberOfGoals; n++)
 	{
 		isGoalTaken[n] = true;
@@ -73,14 +74,14 @@ void Game::UpdateModel()
 	newTime = time(NULL);
 
 	srand(time(NULL));
-	
-	if (newTime - oldTime >= 1) 
+
+	if (newTime - oldTime >= 1)
 	{
 		int ran = rand() % numberOfGoals;
 
 		if (isGoalTaken[ran] == true)
 		{
-			
+
 			isGoalTaken[ran] = false;
 			oldTime = newTime;
 		}
@@ -101,15 +102,26 @@ void Game::UpdateModel()
 			opponentGround = platform[n].getYloc() - Opponent::xDimension;
 	}
 
-	
+
 
 	for (int n = 0; n < numberOfGoals; n++)
 	{
 		if (goalAndPlayerColliding(player.getXloc(), player.getYloc(), Player::xDimension,
-			Player::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight
-		) || goalAndPlayerColliding(opponent.getXloc(), opponent.getYloc(), Opponent::xDimension,
-			Opponent::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight))
+			Player::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight))
+		{
 			isGoalTaken[n] = true;
+			playerScore.score += 1;
+		}
+		else if (goalAndPlayerColliding(opponent.getXloc(), opponent.getYloc(), Opponent::xDimension,
+			Opponent::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight))
+		{
+
+			isGoalTaken[n] = true;
+			opponentScore.score += 1;
+
+		}
+
+
 	}
 
 	player.setBaseY(playerGround);
@@ -135,10 +147,19 @@ void Game::ComposeFrame()
 			goals[n].drawGoal(gfx);
 		}
 	}
+
 	player.drawPlayer(gfx);
+
 	opponent.Draw(gfx);
+
+	opponentScore.draw(opponent, gfx); 
+
+	playerScore.draw(player, gfx);
+
 	for (int n = 0; n < numberOfPlatforms; n++)
+	{
 		platform[n].drawPlatform(gfx);
+	}
 
 }
 
