@@ -31,7 +31,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <ratio>
-
+#include "Score.h"
 using namespace std;
 class Game
 {
@@ -48,6 +48,7 @@ private:
 	bool isCollading(Player & player, Platform& platform) const;
 	bool isCollading(Opponent & opponent, Platform & platform) const;
 	bool goalAndPlayerColliding(int obj1XLoc, int obj1YLoc, int obj1Length, int obj1Width, int obj2XLoc, int obj2YLoc, int obj2Length, int obj2Width);
+	Score playerScore, opponentScore;
 	/********************************/
 private:
 	MainWindow& wnd;
