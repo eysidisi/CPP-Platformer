@@ -42,15 +42,14 @@ Game::Game(MainWindow& wnd)
 	}
 	playerScore.score = 0;
 	opponentScore.score = 0;
-	/*for (int n = 0; n < numberOfGoals; n++)
+	for (int n = 0; n < numberOfGoals; n++)
 	{
 		isGoalTaken[n] = true;
 	}
 
-	isGoalTaken[7] = false;
-	isGoalTaken[5] = false;
-	isGoalTaken[2] = false;
-	*/
+	isGoalTaken[0] = false;
+	
+	
 	oldTime = time(NULL);
 }
 
@@ -75,7 +74,7 @@ void Game::UpdateModel()
 
 	srand(time(NULL));
 
-	if (newTime - oldTime >= 1)
+	/*if (newTime - oldTime >= 1)
 	{
 		int ran = rand() % numberOfGoals;
 
@@ -86,7 +85,7 @@ void Game::UpdateModel()
 			oldTime = newTime;
 		}
 
-	}
+	}*/
 
 	playerGround = Graphics::ScreenHeight - 20;
 	opponentGround = Graphics::ScreenHeight - 20;
@@ -109,15 +108,22 @@ void Game::UpdateModel()
 		if (goalAndPlayerColliding(player.getXloc(), player.getYloc(), Player::xDimension,
 			Player::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight))
 		{
-			isGoalTaken[n] = true;
-			playerScore.score += 1;
+			if (isGoalTaken[n] == false)
+			{
+				isGoalTaken[n] = true;
+				playerScore.score += 1;
+			}
 		}
 		else if (goalAndPlayerColliding(opponent.getXloc(), opponent.getYloc(), Opponent::xDimension,
 			Opponent::yDimension, goals[n].getXLoc(), goals[n].getYLoc(), Goal::goalWidth, Goal::goalHeight))
 		{
 
-			isGoalTaken[n] = true;
-			opponentScore.score += 1;
+			if (isGoalTaken[n] == false)
+			{
+				isGoalTaken[n] = true;
+				opponentScore.score += 1;
+			}
+			
 
 		}
 
