@@ -11,16 +11,16 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 		jumpFlag = 1;							                                 //
 		startingY = yLoc;						                                 //
 	}											                                 //
-												                                 //
+																				 //
 	if (jumpFlag == 1)							                                 //
 	{											                                 //
 		if (yLoc >= (startingY - jumpLenght))	                                 //
 			yLoc -= jumpSpeed;					                                 //
-												                                 //
+																				 //
 		else									                                 //
 			jumpFlag = 2;						                                 //
 	}											                                 //
-												                                 //
+																				 //
 	if (jumpFlag == 2)							                                 //
 	{											                                 //
 		if (yLoc < baseY)						                                 //
@@ -38,10 +38,10 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 			startingY = yLoc;											         //
 		}																         //
 	}																	         //
-																		         //
+																				 //
 	if (jumpFlag == 0 && baseY > yLoc)									         //
 		jumpFlag = 2;													         //
-																		         //
+																				 //
 	//-----------------------------------------------------------------------------																	         
 	isThereAnyToken = ifAnyToken(isGoalTaken, numberOfGoals);
 	if (isThereAnyToken)											//if there is at least one active token
@@ -233,9 +233,10 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 					int targettedPlatform = closestToken;
 					if (closestToken < 4 && (findTheRelatedPlatform(platform) <= 4))
 					{
-						
+						while (!(findTheRelatedPlatform(platform) - targettedPlatform <= 2))
+							targettedPlatform++;
 
-						if (ifCloseEnough(platform[targettedPlatform]))
+						if (ifCloseEnoughAtLowerLevel(platform[targettedPlatform]))
 						{
 							isJumping = true;
 
@@ -243,7 +244,7 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 
 						}
 
-						else if (!ifCloseEnough(platform[targettedPlatform]))
+						else if (!ifCloseEnoughAtLowerLevel(platform[targettedPlatform]))
 						{
 							getCloseToPlatform(platform[targettedPlatform]);
 						}
@@ -333,14 +334,14 @@ bool Opponent::ifPlatformReachable(Platform & platform) const
 
 bool Opponent::ifCloseEnough(Platform & platform) const
 {
-	
+
 	if (abs(xLoc + Opponent::xDimension / 2 - platform.getXloc()) <= 50)
 		return true;
 	else if (abs(xLoc + Opponent::xDimension / 2 - platform.getXloc() - platform.getLength()) <= 50)
 		return true;
 	else
 		return false;
-	
+
 }
 
 bool Opponent::ifAnyToken(bool * isGoalTaken, int numberOfGoals)
@@ -776,7 +777,7 @@ bool Opponent::ifItReachableAtLowerLevel(Platform playerP, Platform p2) const
 	if (numOfDifference == 0)
 		numOfDifference = 1;
 
-	numOfDifference *= 100;
+	numOfDifference *= 150;
 
 	if (playerP.getXloc() > p2.getXloc())
 	{
@@ -816,3 +817,14 @@ int Opponent::findTheRelatedPlatform(Platform * platform) //opponentin oldugu pl
 	return platformNumber;
 }
 
+bool Opponent::ifCloseEnoughAtLowerLevel(Platform & platform) const
+{
+
+	if (abs(xLoc + Opponent::xDimension / 2 - platform.getXloc()) <= 150)
+		return true;
+	else if (abs(xLoc + Opponent::xDimension / 2 - platform.getXloc() - platform.getLength()) <= 150)
+		return true;
+	else
+		return false;
+
+}

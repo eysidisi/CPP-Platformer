@@ -42,13 +42,15 @@ Game::Game(MainWindow& wnd)
 	}
 	playerScore.score = 0;
 	opponentScore.score = 0;
-	/*for (int n = 0; n < numberOfGoals; n++)
+	
+	/*for (int n = 0; n < numberOfGoals; n++)  //test code
 	{
 		isGoalTaken[n] = true;
 	}
 
-	isGoalTaken[0] = false;*/
-	
+	isGoalTaken[2] = false;
+	isGoalTaken[5] = false;
+	*/
 	
 	oldTime = time(NULL);
 }
@@ -135,6 +137,8 @@ void Game::UpdateModel()
 		opponent.setBaseY(opponentGround);
 		player.updateLoc(wnd.kbd);
 		opponent.update(goals, numberOfGoals, isGoalTaken, platform);
+		if (playerScore.score >= 25 || opponentScore.score >= 25)
+			isGameOver = true;
 	}
 
 	else
@@ -154,7 +158,7 @@ void Game::ComposeFrame()
 	{
 
 	}
-
+	
 	else
 	{
 
@@ -179,6 +183,10 @@ void Game::ComposeFrame()
 		for (int n = 0; n < numberOfPlatforms; n++)
 		{
 			platform[n].drawPlatform(gfx);
+		}
+		 if (isGameOver)
+		{
+			DrawGameOver(358, 268);
 		}
 	}
 }
