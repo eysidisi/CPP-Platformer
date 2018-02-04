@@ -48,7 +48,10 @@ private:
 	bool isCollading(Player & player, Platform& platform) const;
 	bool isCollading(Opponent & opponent, Platform & platform) const;
 	bool goalAndPlayerColliding(int obj1XLoc, int obj1YLoc, int obj1Length, int obj1Width, int obj2XLoc, int obj2YLoc, int obj2Length, int obj2Width);
+	void DrawGameOver(int x, int y);
 	Score playerScore, opponentScore;
+	bool isGameStarted = false;
+	bool isGameOver = false;
 	/********************************/
 private:
 	MainWindow& wnd;

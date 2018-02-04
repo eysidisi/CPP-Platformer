@@ -233,8 +233,7 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 					int targettedPlatform = closestToken;
 					if (closestToken < 4 && (findTheRelatedPlatform(platform) <= 4))
 					{
-						while (ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)], platform[targettedPlatform]) == false)
-							targettedPlatform += 1;
+						
 
 						if (ifCloseEnough(platform[targettedPlatform]))
 						{
@@ -252,8 +251,6 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 					}
 					else if (closestToken < 4 && (findTheRelatedPlatform(platform) > 4))
 					{
-						/*while (ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)], platform[targettedPlatform]) == false)
-							targettedPlatform += 1;*/
 						while (!(abs(findTheRelatedPlatform(platform) - targettedPlatform) <= 1))
 							targettedPlatform++;
 
@@ -273,8 +270,10 @@ void Opponent::update(Goal* goals, int numberOfGoals, bool* isGoalTaken, Platfor
 
 					else if (closestToken >= 4 && (findTheRelatedPlatform(platform) <= 4))
 					{
-						while (ifItReachableAtLowerLevel(platform[findTheRelatedPlatform(platform)], platform[targettedPlatform]) == false)
-							targettedPlatform -= 1;
+						while (!(abs(findTheRelatedPlatform(platform) - targettedPlatform) <= 1))
+							targettedPlatform--;
+
+
 
 						if (ifCloseEnough(platform[targettedPlatform]))
 						{
