@@ -1,11 +1,11 @@
 Merhaba!
 
-Oyunun Amacý: Abdu'nun platformlarýn üzerinde çýkan sarý renkli altýnlarý ev kirasýný ödeyebilmesi için
-bilgisayar yönetimindeki üç kaatçý çomardan daha hýzlý toplamasýna yardým edin. Ýlk 25 altýný 
-toplayan taraf kazanýr. Sol üst köþede skorunuzu görebilirsiniz.
+Oyunun Amaci: Abdu'nun platformlarin üzerinde çikan sari renkli altinlari ev kirasini ödeyebilmesi için
+bilgisayar yönetimindeki üç kaatçi çomardan daha hizli toplamasýna yardim edin. İlk 25 altini
+toplayan taraf kazanir. Sol üst kösede skorunuzu görebilirsiniz.
 
-Nasýl oynanýr: Oyuna baþlamak için "Abdu The Yellow Guy Game" dosyasýný açýn ve Enter tuþuna basýn.
-Ok tuþlarýný kullanarak sarý renkteki Elçibey'i yönetin ve boþluk tuþu ile platformlarýn üzerine zýplayýn.
+Nasil oynanir: Oyuna baþlamak için "Abdu The Yellow Guy Game" dosyasini açin ve Enter tusuna basin.
+Ok tuşlarini kullanarak sari renkteki Abdu'yu yönetin ve bosluk tusu ile platformlarin üzerine ziplayin..
 
 
 ------------------------------------------------------------------------------------------------------------------------------------
